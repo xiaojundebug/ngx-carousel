@@ -114,15 +114,15 @@ You can use `ng-template` + `lazyRender` to implement lazy loading
 
 ## 🎁 Inputs
 
-| Name           | Type                                                       | Default | Description                                         |
-| -------------- | ---------------------------------------------------------- | ------- | --------------------------------------------------- |
-| initialIndex   | number                                                     | 0       | Initial index                                       |
-| loop           | boolean                                                    | false   | Whether to enable loop                              |
-| speed          | number                                                     | 300     | Animation duration (ms)                             |
-| autoplay       | number                                                     | 0       | Autoplay interval (ms), `0` means turn off autoplay |
-| followFinger   | boolean                                                    | true    | If false, move only when you release your finger    |
-| allowTouchMove | boolean                                                    | true    | If false, you can only use api to slide             |
-| indicator      | TemplateRef<{ \$implicit: [CarouselData](#carouseldata) }> | -       | Custom indicator                                    |
+| Name           | Type                                                        | Default | Description                                              |
+| -------------- | ----------------------------------------------------------- | ------- | -------------------------------------------------------- |
+| initialIndex   | number                                                      | 0       | Initial index                                            |
+| loop           | boolean                                                     | false   | Whether to enable loop                                   |
+| speed          | number                                                      | 300     | Animation duration (ms)                                  |
+| autoplay       | number                                                      | 0       | Autoplay interval (ms),<br />`0` means turn off autoplay |
+| followFinger   | boolean                                                     | true    | If false, move only when you <br />release your finger   |
+| allowTouchMove | boolean                                                     | true    | If false, you can only use api <br />to slide            |
+| indicator      | TemplateRef<{ \$implicit: [CarouselData](#-carouseldata) }> | -       | Custom indicator                                         |
 
 ## 🐚 Outputs
 
@@ -134,7 +134,7 @@ You can use `ng-template` + `lazyRender` to implement lazy loading
 
 | Name   | Type                                         | Description                                                                                            |
 | ------ | -------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| data   | [CarouselData](#carouseldata)                | Some component raw data                                                                                |
+| data   | [CarouselData](#-carouseldata)               | Some component raw data                                                                                |
 | goTo   | (target: number, immediate: boolean) => void | Slide to target index, params:<br />`target`: Target index<br />`immediate`: Whether to skip animation |
 | prev   | () => void                                   | Slide to prev slider                                                                                   |
 | next   | () => void                                   | Slide to next slider                                                                                   |
