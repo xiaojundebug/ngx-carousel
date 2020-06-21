@@ -1,0 +1,19 @@
+{
+  "name": "@ciri/ngx-carousel",
+  "description": "A simple angular carousel component.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "xiaojun1994 <362896731@qq.com>",
+  "repository": "git@github.com:xiaojun1994/ngx-carousel.git",
+  "keywords": [
+    "angular",
+    "ng",
+    "carousel",
+    "swiper",
+    "slider"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14"
+  }
+}

@@ -1,0 +1,16 @@
+.ngx-carousel__item {
+  display: inline-block;
+  vertical-align: top;
+
+  &.pre-mirror-node {
+    position: absolute;
+    left: 0;
+    transform: translateX(-100%);
+  }
+
+  &.post-mirror-node {
+    position: absolute;
+    right: 0;
+    transform: translateX(100%);
+  }
+}

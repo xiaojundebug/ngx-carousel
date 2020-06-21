@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@ciri/ngx-carousel": [
+        "dist/ngx-carousel"
+      ],
+      "@ciri/ngx-carousel/*": [
+        "dist/ngx-carousel/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

@@ -1,0 +1,20 @@
+<div
+  class="ngx-carousel__track"
+  #track
+  (dragstart)="$event.preventDefault()"
+  (panstart)="onPanStart($event)"
+  (panmove)="onPanMove($event)"
+  (panend)="onPanEnd($event)"
+  (pancancel)="onPanEnd($event)"
+>
+  <ng-content></ng-content>
+</div>
+
+<div class="ngx-carousel__indicator" *ngIf="!indicator">
+  <div
+    *ngFor="let item of items; let i = index"
+    [class.active]="i === (active$ | async)"
+  ></div>
+</div>
+
+<ng-container *ngTemplateOutlet="indicator; context: { $implicit: data }"></ng-container>
