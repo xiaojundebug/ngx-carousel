@@ -55,7 +55,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     !*** ./dist/ngx-carousel/fesm2015/ciri-ngx-carousel.js ***!
     \*********************************************************/
 
-  /*! exports provided: CarouselComponent, CarouselItemComponent, CarouselModule, LazyRenderDirective, ɵa */
+  /*! exports provided: CarouselComponent, CarouselItemComponent, CarouselModule, LazyRenderDirective, ɵa, ɵb */
 
   /***/
   function distNgxCarouselFesm2015CiriNgxCarouselJs(module, __webpack_exports__, __webpack_require__) {
@@ -90,6 +90,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
     __webpack_require__.d(__webpack_exports__, "ɵa", function () {
+      return CAROUSEL;
+    });
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "ɵb", function () {
       return HammerConfig;
     });
     /* harmony import */
@@ -129,19 +135,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    var resize_observer_polyfill__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! resize-observer-polyfill */
+    "./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js");
+    /* harmony import */
+
+
+    var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! @angular/common */
     "./node_modules/@angular/common/fesm2015/common.js");
     /* harmony import */
 
 
-    var hammerjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    var hammerjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
     /*! hammerjs */
     "./node_modules/hammerjs/hammer.js");
     /* harmony import */
 
 
-    var hammerjs__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(hammerjs__WEBPACK_IMPORTED_MODULE_6__);
+    var hammerjs__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(hammerjs__WEBPACK_IMPORTED_MODULE_7__);
     /**
      * @fileoverview added by tsickle
      * Generated from: lib/lazy-render.directive.ts
@@ -176,26 +188,106 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     if (false) {}
     /**
      * @fileoverview added by tsickle
+     * Generated from: utils.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+
+    /**
+     * 监听元素大小变动
+     * \@param target 被监听元素
+     * @type {?}
+     */
+
+
+    var resize =
+    /**
+    * @param {?} target
+    * @return {?}
+    */
+    function resize(target) {
+      return new rxjs__WEBPACK_IMPORTED_MODULE_1__["Observable"](
+      /**
+      * @param {?} observer
+      * @return {?}
+      */
+      function (observer) {
+        /** @type {?} */
+        var ro = new resize_observer_polyfill__WEBPACK_IMPORTED_MODULE_5__["default"](
+        /**
+        * @param {?} entries
+        * @return {?}
+        */
+        function (entries) {
+          observer.next(entries);
+        });
+        ro.observe(target);
+        return (
+          /**
+          * @return {?}
+          */
+          function () {
+            ro.disconnect();
+          }
+        );
+      });
+    };
+    /**
+     * @param {?} value
+     * @param {?} min
+     * @param {?} max
+     * @return {?}
+     */
+
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+    /**
+     * @param {?} number
+     * @param {?} start
+     * @param {?} end
+     * @return {?}
+     */
+
+
+    function inRange(number, start, end) {
+      return number >= start && number <= end;
+    }
+    /** @type {?} */
+
+
+    var CAROUSEL = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["InjectionToken"]('CarouselToken');
+    /**
+     * @fileoverview added by tsickle
      * Generated from: lib/carousel-item/carousel-item.component.ts
      * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
 
-
     var CarouselItemComponent = /*#__PURE__*/function () {
       /**
        * @param {?} elRef
-       * @param {?} parent
+       * @param {?} cdr
        * @param {?} sanitizer
+       * @param {?} parent
        */
-      function CarouselItemComponent(elRef, parent, sanitizer) {
+      function CarouselItemComponent(elRef, cdr, sanitizer, parent // 之所以不声明具体类型是因为会警告循环引用，虽然它并未发生
+      ) {
         _classCallCheck(this, CarouselItemComponent);
 
         this.elRef = elRef;
-        this.parent = parent;
+        this.cdr = cdr;
         this.sanitizer = sanitizer;
+        this.parent = parent;
         this.rendered = false;
         this.destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
-      }
+      } // 这种方式不兼容 ie11，废弃掉此方案
+      // @HostBinding('style')
+      // get style() {
+      //   return this.sanitizer.bypassSecurityTrustStyle(`
+      //     width: ${this.parent.width}px;
+      //   `)
+      // }
+
       /**
        * @return {?}
        */
@@ -217,20 +309,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function ngAfterViewInit() {
           var _this = this;
 
-          setTimeout(
+          var _this$parent =
+          /** @type {?} */
+          this.parent,
+              active$ = _this$parent.active$,
+              cache = _this$parent.cache,
+              offset = _this$parent.lazyRenderOffset;
+          active$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$)).subscribe(
           /**
+          * @param {?} index
           * @return {?}
           */
-          function () {
-            _this.parent.active$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(_this.destroy$)).subscribe(
-            /**
-            * @param {?} res
-            * @return {?}
-            */
-            function (res) {
-              _this.rendered = _this.rendered || _this.index === res;
-            });
-          }, 0);
+          function (index) {
+            _this.rendered = cache && _this.rendered || inRange(_this.index, index - offset, index + offset);
+
+            _this.cdr.markForCheck();
+          });
         }
         /**
          * @return {?}
@@ -243,19 +337,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.destroy$.complete();
         }
       }, {
-        key: "style",
+        key: "isLazyRender",
         get: function get() {
-          var width = this.parent.width;
-          return this.sanitizer.bypassSecurityTrustStyle("\n      width: ".concat(width, "px;\n    "));
+          return !!this.lazyContent;
         }
         /**
          * @return {?}
          */
 
       }, {
-        key: "isLazyRender",
+        key: "shouldRender",
         get: function get() {
-          return !!this.lazyContent;
+          return !this.isLazyRender || this.rendered;
         }
       }]);
 
@@ -266,8 +359,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
       args: [{
         selector: 'ngx-carousel-item',
-        template: "<ng-container *ngIf=\"!isLazyRender || rendered\">\n  <ng-template [ngTemplateOutlet]=\"lazyContent && lazyContent.content\"></ng-template>\n  <ng-content></ng-content>\n</ng-container>\n",
+        template: "<ng-container *ngIf=\"shouldRender\" [ngTemplateOutlet]=\"lazyContent && lazyContent.content\">\n  <ng-content></ng-content>\n</ng-container>\n",
         encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
+        changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
         host: {
           '[class.ngx-carousel__item]': "true"
         },
@@ -280,9 +374,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"]
       }, {
-        type: CarouselComponent
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]
       }, {
         type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["DomSanitizer"]
+      }, {
+        type: undefined,
+        decorators: [{
+          type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"],
+          args: [CAROUSEL]
+        }]
       }];
     };
 
@@ -292,31 +392,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         args: [LazyRenderDirective, {
           "static": false
         }]
-      }],
-      style: [{
-        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["HostBinding"],
-        args: ['style']
       }]
     };
 
     if (false) {}
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: utils.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @param {?} value
-     * @param {?} min
-     * @param {?} max
-     * @return {?}
-     */
-
-
-    function clamp(value, min, max) {
-      return Math.min(Math.max(value, min), max);
-    }
     /**
      * @fileoverview added by tsickle
      * Generated from: lib/carousel/carousel.component.ts
@@ -328,14 +407,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       // 后镜像节点
 
       /**
-       * @param {?} render
+       * @param {?} renderer
        * @param {?} hostElRef
        * @param {?} cdr
        */
-      function CarouselComponent(render, hostElRef, cdr) {
+      function CarouselComponent(renderer, hostElRef, cdr) {
         _classCallCheck(this, CarouselComponent);
 
-        this.render = render;
+        this.renderer = renderer;
         this.hostElRef = hostElRef;
         this.cdr = cdr;
         /**
@@ -354,7 +433,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.autoplay = 0;
         /**
-         * 是否跟随手指滑动
+         * 是否跟随手指滑动，设为 false 代表只在松手后进行移动判断
          */
 
         this.followFinger = true;
@@ -369,10 +448,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.initialIndex = 0;
         /**
+         * lazyRender 模式下预渲染个数，1 代表左右多渲染一个，2 代表左右多渲染两个，...
+         */
+
+        this.lazyRenderOffset = 0;
+        /**
+         * 是否缓存 lazyRender 模式下渲染过的 item，不从 dom 树中删除
+         */
+
+        this.cache = false;
+        /**
          * 索引变动时触发
          */
 
-        this.change = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.indexChange = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.active$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](null);
         this.destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
         this.percent = 0; // 手指滑动距离所占宽度总和百分比
@@ -404,44 +493,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function ngAfterViewInit() {
           var _this2 = this;
 
-          this.active$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["filter"])(
-          /**
-          * @param {?} v
-          * @return {?}
-          */
-          function (v) {
-            return v !== null && v >= 0 && v <= _this2.count - 1;
-          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["distinctUntilChanged"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["skip"])(1)).subscribe(
-          /**
-          * @param {?} res
-          * @return {?}
-          */
-          function (res) {
-            _this2.change.emit(res);
-          });
-          Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["fromEvent"])(window, 'resize').pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["debounceTime"])(60, rxjs_internal_scheduler_animationFrame__WEBPACK_IMPORTED_MODULE_3__["animationFrame"])).subscribe(
-          /**
-          * @return {?}
-          */
-          function () {
-            _this2.resize();
-          });
-          this.items.changes.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["startWith"])(null), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["debounceTime"])(60, rxjs_internal_scheduler_animationFrame__WEBPACK_IMPORTED_MODULE_3__["animationFrame"])).subscribe(
+          this.items.changes.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["startWith"])(null), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["debounceTime"])(0, rxjs_internal_scheduler_animationFrame__WEBPACK_IMPORTED_MODULE_3__["animationFrame"])).subscribe(
           /**
           * @return {?}
           */
           function () {
             _this2.init();
           });
-        }
-        /**
-         * @param {?} changes
-         * @return {?}
-         */
+          this.active$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["skip"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["filter"])(
+          /**
+          * @param {?} v
+          * @return {?}
+          */
+          function (v) {
+            return v !== null && inRange(v, 0, _this2.count - 1);
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["distinctUntilChanged"])()).subscribe(
+          /**
+          * @param {?} res
+          * @return {?}
+          */
+          function (res) {
+            _this2.indexChange.emit(res);
 
-      }, {
-        key: "ngOnChanges",
-        value: function ngOnChanges(changes) {}
+            _this2.cdr.markForCheck();
+          }); // resize 功能待开发
+          // resize(this.viewport)
+          //   .pipe(takeUntil(this.destroy$), debounceTime(0, animationFrame))
+          //   .subscribe(() => {
+          //     // this.updateWidth()
+          //     // this.goTo(this.active, true)
+          //   })
+        }
         /**
          * @return {?}
          */
@@ -481,7 +563,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           if (this.followFinger) {
             /** @type {?} */
-            var offset = this.percent - 100 / this.count * this.active$.value;
+            var offset = this.percent - 100 / this.count * this.active;
             this.move(offset, true);
           }
         }
@@ -500,7 +582,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           /** @type {?} */
 
 
-          var newActive = this.active$.value;
+          var newActive = this.active;
           /** @type {?} */
 
           var isSwipeLeft = e.direction === Hammer.DIRECTION_LEFT && e.velocityX < -0.3;
@@ -518,9 +600,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.startAutoplay();
         }
         /**
-         * 跳转到某一项
-         * @param {?=} target 目标索引
-         * @param {?=} immediate 跳转时是否不显示动画
+         * @param {?=} target
+         * @param {?=} immediate
          * @return {?}
          */
 
@@ -562,34 +643,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           });
         }
         /**
-         * 切换到上一个
          * @return {?}
          */
 
       }, {
         key: "prev",
         value: function prev() {
-          this.goTo(this.active$.value - 1);
+          this.goTo(this.active - 1);
         }
         /**
-         * 切换到下一个
          * @return {?}
          */
 
       }, {
         key: "next",
         value: function next() {
-          this.goTo(this.active$.value + 1);
-        }
-        /**
-         * 重新计算更新组件
-         * @return {?}
-         */
-
-      }, {
-        key: "resize",
-        value: function resize() {
-          this.cdr.detectChanges();
+          this.goTo(this.active + 1);
         }
         /**
          * @private
@@ -612,20 +681,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           * @return {?}
           */
           function (el, index) {
-            return el.index = index;
+            el.index = index;
+
+            _this4.renderer.setStyle(el.elRef.nativeElement, 'width', "".concat(_this4.width, "px"));
           });
-
-          if (this.loop) {
-            this.handleMirrorNodes();
-          }
-
-          setTimeout(
-          /**
-          * @return {?}
-          */
-          function () {
-            _this4.goTo(_this4.getSafeActive(_this4.initialIndex, true), true);
-          }, 0);
+          this.goTo(this.getSafeActive(this.initialIndex, true), true);
           this.startAutoplay();
         }
         /**
@@ -637,7 +697,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "getSafeDeltaX",
         value: function getSafeDeltaX(deltaX) {
-          return clamp(deltaX, -this.width, this.width);
+          /** @type {?} */
+          var w = this.width;
+          return clamp(deltaX, -w, w);
         }
         /**
          * @private
@@ -688,8 +750,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           ; // 清理镜像节点
 
           try {
-            this.render.removeChild(trackEl, this.preMirrorNode);
-            this.render.removeChild(trackEl, this.postMirrorNode);
+            this.renderer.removeChild(trackEl, this.preMirrorNode);
+            this.renderer.removeChild(trackEl, this.postMirrorNode);
           } catch (e) {}
 
           var _this$items = this.items,
@@ -697,10 +759,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               last = _this$items.last;
           this.preMirrorNode = last.elRef.nativeElement.cloneNode(true);
           this.postMirrorNode = first.elRef.nativeElement.cloneNode(true);
-          this.render.addClass(this.preMirrorNode, 'pre-mirror-node');
-          this.render.addClass(this.postMirrorNode, 'post-mirror-node');
-          this.render.insertBefore(trackEl, this.preMirrorNode, first.elRef.nativeElement);
-          this.render.appendChild(trackEl, this.postMirrorNode);
+          this.renderer.addClass(this.preMirrorNode, 'pre-mirror-node');
+          this.renderer.addClass(this.postMirrorNode, 'post-mirror-node');
+          this.renderer.insertBefore(trackEl, this.preMirrorNode, first.elRef.nativeElement);
+          this.renderer.appendChild(trackEl, this.postMirrorNode);
         }
         /**
          * @private
@@ -722,8 +784,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           /** @type {?} */
 
           var newOffset = this.offset = offset;
-          this.render.setStyle(el, 'transition', immediate ? 'none' : "transform ".concat(this.speed, "ms"));
-          this.render.setStyle(el, 'transform', "translate3d(".concat(offset, "%, 0, 0)"));
+          this.renderer.setStyle(el, 'transition', immediate ? 'none' : "transform ".concat(this.speed, "ms"));
+          this.renderer.setStyle(el, 'transform', "translate3d(".concat(offset, "%, 0, 0)"));
           return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["timer"])(immediate || newOffset === oldOffset ? 0 : this.speed).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$));
         }
         /**
@@ -747,7 +809,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           */
           function () {
             /** @type {?} */
-            var oldActive = _this5.active$.value;
+            var oldActive = _this5.active;
             /** @type {?} */
 
             var newActive = _this5.loop ? oldActive + 1 : _this5.getRealActive(oldActive + 1);
@@ -766,9 +828,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.intervalSub && this.intervalSub.unsubscribe();
         }
       }, {
+        key: "active",
+        get: function get() {
+          return this.active$.value;
+        }
+        /**
+         * @return {?}
+         */
+
+      }, {
         key: "count",
         get: function get() {
-          return this.items.length;
+          return (this.items || []).length;
+        }
+        /**
+         * @return {?}
+         */
+
+      }, {
+        key: "viewport",
+        get: function get() {
+          return this.hostElRef.nativeElement;
         }
         /**
          * @return {?}
@@ -777,7 +857,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "width",
         get: function get() {
-          return this.hostElRef.nativeElement.offsetWidth;
+          return this.viewport.offsetWidth;
         }
         /**
          * @return {?}
@@ -796,10 +876,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "data",
         get: function get() {
           return {
-            active: this.active$.value,
+            active: this.active,
             count: this.count,
             offset: this.offset,
-            animating: this.animating
+            animating: this.animating,
+            atFirst: this.active === 0,
+            atLast: this.active === this.count - 1
           };
         }
       }]);
@@ -811,11 +893,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
       args: [{
         selector: 'ngx-carousel',
-        template: "<div\n  class=\"ngx-carousel__track\"\n  #track\n  (dragstart)=\"$event.preventDefault()\"\n  (panstart)=\"onPanStart($event)\"\n  (panmove)=\"onPanMove($event)\"\n  (panend)=\"onPanEnd($event)\"\n  (pancancel)=\"onPanEnd($event)\"\n>\n  <ng-content></ng-content>\n</div>\n\n<div class=\"ngx-carousel__indicator\" *ngIf=\"!indicator\">\n  <div\n    *ngFor=\"let item of items; let i = index\"\n    [class.active]=\"i === (active$ | async)\"\n  ></div>\n</div>\n\n<ng-container *ngTemplateOutlet=\"indicator; context: { $implicit: data }\"></ng-container>\n",
+        template: "<div\n  class=\"ngx-carousel__track\"\n  #track\n  (dragstart)=\"$event.preventDefault()\"\n  (panstart)=\"onPanStart($event)\"\n  (panmove)=\"onPanMove($event)\"\n  (panend)=\"onPanEnd($event)\"\n  (pancancel)=\"onPanEnd($event)\"\n>\n  <ng-content></ng-content>\n</div>\n\n<div class=\"ngx-carousel__indicator\" *ngIf=\"!indicator\">\n  <div\n    *ngFor=\"let item of items; let i = index\"\n    [class.active]=\"i === active\"\n  ></div>\n</div>\n\n<ng-container *ngTemplateOutlet=\"indicator; context: { $implicit: data }\"></ng-container>\n",
         encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
+        changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
         host: {
           '[class.ngx-carousel]': "true"
         },
+        providers: [{
+          provide: CAROUSEL,
+          useExisting: Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["forwardRef"])(
+          /**
+          * @return {?}
+          */
+          function () {
+            return CarouselComponent;
+          })
+        }],
         styles: [".ngx-carousel{position:relative;display:block;overflow:hidden}.ngx-carousel__track{position:relative;display:inline-block;white-space:nowrap}.ngx-carousel__indicator{position:absolute;bottom:10px;width:100%;text-align:center;white-space:nowrap;font-size:0;pointer-events:none}.ngx-carousel__indicator div{display:inline-block;width:6px;height:6px;margin:0 3px;border-radius:50%;background:rgba(0,0,0,.25);pointer-events:auto}.ngx-carousel__indicator div.active{background:rgba(0,0,0,.75)}"]
       }]
     }];
@@ -853,7 +946,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       initialIndex: [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
       }],
-      change: [{
+      lazyRenderOffset: [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+      }],
+      cache: [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+      }],
+      indexChange: [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"]
       }],
       track: [{
@@ -920,7 +1019,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"],
       args: [{
         declarations: [CarouselComponent, CarouselItemComponent, LazyRenderDirective],
-        imports: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"]],
+        imports: [_angular_common__WEBPACK_IMPORTED_MODULE_6__["CommonModule"]],
         exports: [CarouselComponent, CarouselItemComponent, LazyRenderDirective],
         providers: [{
           provide: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["HAMMER_GESTURE_CONFIG"],
@@ -960,7 +1059,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<h3>Basic Usage</h3>\n<ngx-carousel [loop]=\"true\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">1</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #F4B9C1\">2</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #96CDF6\">3</div>\n  </ngx-carousel-item>\n</ngx-carousel>\n\n<h3>Custom Indicator</h3>\n<ngx-carousel #carousel [indicator]=\"indicator\" [loop]=\"true\" [autoplay]=\"3000\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">1</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #F4B9C1\">2</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #96CDF6\">3</div>\n  </ngx-carousel-item>\n\n  <ng-template #indicator let-data>\n    <div style=\"position: absolute; bottom: 0; right: 0; padding: 0 10px; background: rgba(0, 0, 0, 0.3); color: #fff;\">\n      {{ data.active + 1 }} / {{ data.count }}\n    </div>\n  </ng-template>\n</ngx-carousel>\n{{ carousel.data | json }}\n\n<h3>Lazy Render</h3>\n<ngx-carousel [loop]=\"true\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">I'm not lazy</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <ng-template lazyRender>\n      <div class=\"demo-content\" style=\"background: #F4B9C1\">I'm lazy</div>\n    </ng-template>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <ng-template lazyRender>\n      <div class=\"demo-content\" style=\"background: #96CDF6\">I'm lazy</div>\n    </ng-template>\n  </ngx-carousel-item>\n</ngx-carousel>\n";
+    __webpack_exports__["default"] = "<h3>Basic Usage</h3>\n<ngx-carousel [loop]=\"true\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">1</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #F4B9C1\">2</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #96CDF6\">3</div>\n  </ngx-carousel-item>\n</ngx-carousel>\n\n<h3>Custom Indicator</h3>\n<ngx-carousel #carousel [indicator]=\"indicator\" [loop]=\"true\" [autoplay]=\"3000\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">1</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #F4B9C1\">2</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #96CDF6\">3</div>\n  </ngx-carousel-item>\n\n  <ng-template #indicator let-data>\n    <div style=\"position: absolute; bottom: 0; right: 0; padding: 0 10px; background: rgba(0, 0, 0, 0.3); color: #fff;\">\n      {{ data.active + 1 }} / {{ data.count }}\n    </div>\n  </ng-template>\n</ngx-carousel>\n{{ carousel.data | json }}\n\n<h3>Lazy Render</h3>\n<ngx-carousel [loop]=\"true\" [cache]=\"true\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">I'm not lazy</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <ng-template lazyRender>\n      <div class=\"demo-content\" style=\"background: #F4B9C1\">I'm lazy</div>\n    </ng-template>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <ng-template lazyRender>\n      <div class=\"demo-content\" style=\"background: #96CDF6\">I'm lazy</div>\n    </ng-template>\n  </ngx-carousel-item>\n</ngx-carousel>\n";
     /***/
   },
 
@@ -1584,7 +1683,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".demo-content {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 50vw;\n  font-size: 26px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3RyYXZpcy9idWlsZC94aWFvanVuMTk5NC9uZ3gtY2Fyb3VzZWwvc3JjL2FwcC9hcHAuY29tcG9uZW50Lmxlc3MiLCJzcmMvYXBwL2FwcC5jb21wb25lbnQubGVzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGFBQUE7RUFDQSxtQkFBQTtFQUNBLHVCQUFBO0VBQ0EsWUFBQTtFQUNBLGVBQUE7QUNDRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQubGVzcyIsInNvdXJjZXNDb250ZW50IjpbIi5kZW1vLWNvbnRlbnQge1xuICBkaXNwbGF5OiBmbGV4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgaGVpZ2h0OiA1MHZ3O1xuICBmb250LXNpemU6IDI2cHg7XG59XG4iLCIuZGVtby1jb250ZW50IHtcbiAgZGlzcGxheTogZmxleDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGhlaWdodDogNTB2dztcbiAgZm9udC1zaXplOiAyNnB4O1xufVxuIl19 */";
+    __webpack_exports__["default"] = ".demo-content {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 50vw;\n  font-size: 26px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3J1bm5lci93b3JrL25neC1jYXJvdXNlbC9uZ3gtY2Fyb3VzZWwvc3JjL2FwcC9hcHAuY29tcG9uZW50Lmxlc3MiLCJzcmMvYXBwL2FwcC5jb21wb25lbnQubGVzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGFBQUE7RUFDQSxtQkFBQTtFQUNBLHVCQUFBO0VBQ0EsWUFBQTtFQUNBLGVBQUE7QUNDRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQubGVzcyIsInNvdXJjZXNDb250ZW50IjpbIi5kZW1vLWNvbnRlbnQge1xuICBkaXNwbGF5OiBmbGV4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgaGVpZ2h0OiA1MHZ3O1xuICBmb250LXNpemU6IDI2cHg7XG59XG4iLCIuZGVtby1jb250ZW50IHtcbiAgZGlzcGxheTogZmxleDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGhlaWdodDogNTB2dztcbiAgZm9udC1zaXplOiAyNnB4O1xufVxuIl19 */";
     /***/
   },
 
@@ -1810,7 +1909,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /home/travis/build/xiaojun1994/ngx-carousel/src/main.ts */
+    /*! /home/runner/work/ngx-carousel/ngx-carousel/src/main.ts */
     "./src/main.ts");
     /***/
   }

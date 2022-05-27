@@ -27,7 +27,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*!*********************************************************!*\
   !*** ./dist/ngx-carousel/fesm2015/ciri-ngx-carousel.js ***!
   \*********************************************************/
-/*! exports provided: CarouselComponent, CarouselItemComponent, CarouselModule, LazyRenderDirective, ɵa */
+/*! exports provided: CarouselComponent, CarouselItemComponent, CarouselModule, LazyRenderDirective, ɵa, ɵb */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -36,16 +36,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CarouselItemComponent", function() { return CarouselItemComponent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CarouselModule", function() { return CarouselModule; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LazyRenderDirective", function() { return LazyRenderDirective; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵa", function() { return HammerConfig; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵa", function() { return CAROUSEL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵb", function() { return HammerConfig; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 /* harmony import */ var rxjs_internal_scheduler_animationFrame__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/internal/scheduler/animationFrame */ "./node_modules/rxjs/internal/scheduler/animationFrame.js");
 /* harmony import */ var rxjs_internal_scheduler_animationFrame__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(rxjs_internal_scheduler_animationFrame__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
-/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! hammerjs */ "./node_modules/hammerjs/hammer.js");
-/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(hammerjs__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var resize_observer_polyfill__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! resize-observer-polyfill */ "./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
+/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! hammerjs */ "./node_modules/hammerjs/hammer.js");
+/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(hammerjs__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -80,31 +83,90 @@ if (false) {}
 
 /**
  * @fileoverview added by tsickle
+ * Generated from: utils.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * 监听元素大小变动
+ * \@param target 被监听元素
+ * @type {?}
+ */
+const resize = (/**
+ * @param {?} target
+ * @return {?}
+ */
+(target) => {
+    return new rxjs__WEBPACK_IMPORTED_MODULE_1__["Observable"]((/**
+     * @param {?} observer
+     * @return {?}
+     */
+    observer => {
+        /** @type {?} */
+        const ro = new resize_observer_polyfill__WEBPACK_IMPORTED_MODULE_5__["default"]((/**
+         * @param {?} entries
+         * @return {?}
+         */
+        entries => {
+            observer.next(entries);
+        }));
+        ro.observe(target);
+        return (/**
+         * @return {?}
+         */
+        () => {
+            ro.disconnect();
+        });
+    }));
+});
+/**
+ * @param {?} value
+ * @param {?} min
+ * @param {?} max
+ * @return {?}
+ */
+function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+}
+/**
+ * @param {?} number
+ * @param {?} start
+ * @param {?} end
+ * @return {?}
+ */
+function inRange(number, start, end) {
+    return number >= start && number <= end;
+}
+/** @type {?} */
+const CAROUSEL = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["InjectionToken"]('CarouselToken');
+
+/**
+ * @fileoverview added by tsickle
  * Generated from: lib/carousel-item/carousel-item.component.ts
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class CarouselItemComponent {
     /**
      * @param {?} elRef
-     * @param {?} parent
+     * @param {?} cdr
      * @param {?} sanitizer
+     * @param {?} parent
      */
-    constructor(elRef, parent, sanitizer) {
+    constructor(elRef, cdr, sanitizer, parent // 之所以不声明具体类型是因为会警告循环引用，虽然它并未发生
+    ) {
         this.elRef = elRef;
-        this.parent = parent;
+        this.cdr = cdr;
         this.sanitizer = sanitizer;
+        this.parent = parent;
         this.rendered = false;
         this.destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
     }
-    /**
-     * @return {?}
-     */
-    get style() {
-        const { width } = this.parent;
-        return this.sanitizer.bypassSecurityTrustStyle(`
-      width: ${width}px;
-    `);
-    }
+    // 这种方式不兼容 ie11，废弃掉此方案
+    // @HostBinding('style')
+    // get style() {
+    //   return this.sanitizer.bypassSecurityTrustStyle(`
+    //     width: ${this.parent.width}px;
+    //   `)
+    // }
     /**
      * @return {?}
      */
@@ -114,23 +176,27 @@ class CarouselItemComponent {
     /**
      * @return {?}
      */
+    get shouldRender() {
+        return !this.isLazyRender || this.rendered;
+    }
+    /**
+     * @return {?}
+     */
     ngOnInit() { }
     /**
      * @return {?}
      */
     ngAfterViewInit() {
-        setTimeout((/**
+        const { active$, cache, lazyRenderOffset: offset } = (/** @type {?} */ (this.parent));
+        active$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$)).subscribe((/**
+         * @param {?} index
          * @return {?}
          */
-        () => {
-            this.parent.active$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$)).subscribe((/**
-             * @param {?} res
-             * @return {?}
-             */
-            res => {
-                this.rendered = this.rendered || this.index === res;
-            }));
-        }), 0);
+        index => {
+            this.rendered =
+                (cache && this.rendered) || inRange(this.index, index - offset, index + offset);
+            this.cdr.markForCheck();
+        }));
     }
     /**
      * @return {?}
@@ -143,8 +209,9 @@ class CarouselItemComponent {
 CarouselItemComponent.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"], args: [{
                 selector: 'ngx-carousel-item',
-                template: "<ng-container *ngIf=\"!isLazyRender || rendered\">\n  <ng-template [ngTemplateOutlet]=\"lazyContent && lazyContent.content\"></ng-template>\n  <ng-content></ng-content>\n</ng-container>\n",
+                template: "<ng-container *ngIf=\"shouldRender\" [ngTemplateOutlet]=\"lazyContent && lazyContent.content\">\n  <ng-content></ng-content>\n</ng-container>\n",
                 encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
+                changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
                 host: {
                     '[class.ngx-carousel__item]': `true`
                 },
@@ -154,29 +221,14 @@ CarouselItemComponent.decorators = [
 /** @nocollapse */
 CarouselItemComponent.ctorParameters = () => [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] },
-    { type: CarouselComponent },
-    { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["DomSanitizer"] }
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] },
+    { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["DomSanitizer"] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [CAROUSEL,] }] }
 ];
 CarouselItemComponent.propDecorators = {
-    lazyContent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ContentChild"], args: [LazyRenderDirective, { static: false },] }],
-    style: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["HostBinding"], args: ['style',] }]
+    lazyContent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ContentChild"], args: [LazyRenderDirective, { static: false },] }]
 };
 if (false) {}
-
-/**
- * @fileoverview added by tsickle
- * Generated from: utils.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * @param {?} value
- * @param {?} min
- * @param {?} max
- * @return {?}
- */
-function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
-}
 
 /**
  * @fileoverview added by tsickle
@@ -186,12 +238,12 @@ function clamp(value, min, max) {
 class CarouselComponent {
     // 后镜像节点
     /**
-     * @param {?} render
+     * @param {?} renderer
      * @param {?} hostElRef
      * @param {?} cdr
      */
-    constructor(render, hostElRef, cdr) {
-        this.render = render;
+    constructor(renderer, hostElRef, cdr) {
+        this.renderer = renderer;
         this.hostElRef = hostElRef;
         this.cdr = cdr;
         /**
@@ -207,7 +259,7 @@ class CarouselComponent {
          */
         this.autoplay = 0;
         /**
-         * 是否跟随手指滑动
+         * 是否跟随手指滑动，设为 false 代表只在松手后进行移动判断
          */
         this.followFinger = true;
         /**
@@ -219,9 +271,17 @@ class CarouselComponent {
          */
         this.initialIndex = 0;
         /**
+         * lazyRender 模式下预渲染个数，1 代表左右多渲染一个，2 代表左右多渲染两个，...
+         */
+        this.lazyRenderOffset = 0;
+        /**
+         * 是否缓存 lazyRender 模式下渲染过的 item，不从 dom 树中删除
+         */
+        this.cache = false;
+        /**
          * 索引变动时触发
          */
-        this.change = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.indexChange = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.active$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](null);
         this.destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
         this.percent = 0; // 手指滑动距离所占宽度总和百分比
@@ -233,14 +293,26 @@ class CarouselComponent {
     /**
      * @return {?}
      */
+    get active() {
+        return this.active$.value;
+    }
+    /**
+     * @return {?}
+     */
     get count() {
-        return this.items.length;
+        return (this.items || []).length;
+    }
+    /**
+     * @return {?}
+     */
+    get viewport() {
+        return this.hostElRef.nativeElement;
     }
     /**
      * @return {?}
      */
     get width() {
-        return this.hostElRef.nativeElement.offsetWidth;
+        return this.viewport.offsetWidth;
     }
     /**
      * @return {?}
@@ -253,10 +325,12 @@ class CarouselComponent {
      */
     get data() {
         return {
-            active: this.active$.value,
+            active: this.active,
             count: this.count,
             offset: this.offset,
-            animating: this.animating
+            animating: this.animating,
+            atFirst: this.active === 0,
+            atLast: this.active === this.count - 1
         };
     }
     /**
@@ -267,41 +341,36 @@ class CarouselComponent {
      * @return {?}
      */
     ngAfterViewInit() {
-        this.active$
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["filter"])((/**
-         * @param {?} v
-         * @return {?}
-         */
-        v => v !== null && v >= 0 && v <= this.count - 1)), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["distinctUntilChanged"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["skip"])(1))
-            .subscribe((/**
-         * @param {?} res
-         * @return {?}
-         */
-        res => {
-            this.change.emit(res);
-        }));
-        Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["fromEvent"])(window, 'resize')
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["debounceTime"])(60, rxjs_internal_scheduler_animationFrame__WEBPACK_IMPORTED_MODULE_3__["animationFrame"]))
-            .subscribe((/**
-         * @return {?}
-         */
-        () => {
-            this.resize();
-        }));
         this.items.changes
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["startWith"])(null), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["debounceTime"])(60, rxjs_internal_scheduler_animationFrame__WEBPACK_IMPORTED_MODULE_3__["animationFrame"]))
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["startWith"])(null), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["debounceTime"])(0, rxjs_internal_scheduler_animationFrame__WEBPACK_IMPORTED_MODULE_3__["animationFrame"]))
             .subscribe((/**
          * @return {?}
          */
         () => {
             this.init();
         }));
+        this.active$
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["skip"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["filter"])((/**
+         * @param {?} v
+         * @return {?}
+         */
+        v => v !== null && inRange(v, 0, this.count - 1))), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["distinctUntilChanged"])())
+            .subscribe((/**
+         * @param {?} res
+         * @return {?}
+         */
+        res => {
+            this.indexChange.emit(res);
+            this.cdr.markForCheck();
+        }));
+        // resize 功能待开发
+        // resize(this.viewport)
+        //   .pipe(takeUntil(this.destroy$), debounceTime(0, animationFrame))
+        //   .subscribe(() => {
+        //     // this.updateWidth()
+        //     // this.goTo(this.active, true)
+        //   })
     }
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    ngOnChanges(changes) { }
     /**
      * @return {?}
      */
@@ -329,7 +398,7 @@ class CarouselComponent {
         this.percent = ((100 / this.count) * deltaX) / this.width;
         if (this.followFinger) {
             /** @type {?} */
-            const offset = this.percent - (100 / this.count) * this.active$.value;
+            const offset = this.percent - (100 / this.count) * this.active;
             this.move(offset, true);
         }
     }
@@ -343,7 +412,7 @@ class CarouselComponent {
         }
         // 轻拂或者滑动距离大于等于一个节点宽度的 50% 才进行跳转
         /** @type {?} */
-        let newActive = this.active$.value;
+        let newActive = this.active;
         /** @type {?} */
         const isSwipeLeft = e.direction === Hammer.DIRECTION_LEFT && e.velocityX < -0.3;
         /** @type {?} */
@@ -358,9 +427,8 @@ class CarouselComponent {
         this.startAutoplay();
     }
     /**
-     * 跳转到某一项
-     * @param {?=} target 目标索引
-     * @param {?=} immediate 跳转时是否不显示动画
+     * @param {?=} target
+     * @param {?=} immediate
      * @return {?}
      */
     goTo(target = 0, immediate = false) {
@@ -388,25 +456,16 @@ class CarouselComponent {
         }));
     }
     /**
-     * 切换到上一个
      * @return {?}
      */
     prev() {
-        this.goTo(this.active$.value - 1);
+        this.goTo(this.active - 1);
     }
     /**
-     * 切换到下一个
      * @return {?}
      */
     next() {
-        this.goTo(this.active$.value + 1);
-    }
-    /**
-     * 重新计算更新组件
-     * @return {?}
-     */
-    resize() {
-        this.cdr.detectChanges();
+        this.goTo(this.active + 1);
     }
     /**
      * @private
@@ -421,16 +480,11 @@ class CarouselComponent {
          * @param {?} index
          * @return {?}
          */
-        (el, index) => (el.index = index)));
-        if (this.loop) {
-            this.handleMirrorNodes();
-        }
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
-            this.goTo(this.getSafeActive(this.initialIndex, true), true);
-        }), 0);
+        (el, index) => {
+            el.index = index;
+            this.renderer.setStyle(el.elRef.nativeElement, 'width', `${this.width}px`);
+        }));
+        this.goTo(this.getSafeActive(this.initialIndex, true), true);
         this.startAutoplay();
     }
     /**
@@ -439,7 +493,9 @@ class CarouselComponent {
      * @return {?}
      */
     getSafeDeltaX(deltaX) {
-        return clamp(deltaX, -this.width, this.width);
+        /** @type {?} */
+        const w = this.width;
+        return clamp(deltaX, -w, w);
     }
     /**
      * @private
@@ -479,17 +535,17 @@ class CarouselComponent {
         ;
         // 清理镜像节点
         try {
-            this.render.removeChild(trackEl, this.preMirrorNode);
-            this.render.removeChild(trackEl, this.postMirrorNode);
+            this.renderer.removeChild(trackEl, this.preMirrorNode);
+            this.renderer.removeChild(trackEl, this.postMirrorNode);
         }
         catch (e) { }
         const { first, last } = this.items;
         this.preMirrorNode = last.elRef.nativeElement.cloneNode(true);
         this.postMirrorNode = first.elRef.nativeElement.cloneNode(true);
-        this.render.addClass(this.preMirrorNode, 'pre-mirror-node');
-        this.render.addClass(this.postMirrorNode, 'post-mirror-node');
-        this.render.insertBefore(trackEl, this.preMirrorNode, first.elRef.nativeElement);
-        this.render.appendChild(trackEl, this.postMirrorNode);
+        this.renderer.addClass(this.preMirrorNode, 'pre-mirror-node');
+        this.renderer.addClass(this.postMirrorNode, 'post-mirror-node');
+        this.renderer.insertBefore(trackEl, this.preMirrorNode, first.elRef.nativeElement);
+        this.renderer.appendChild(trackEl, this.postMirrorNode);
     }
     /**
      * @private
@@ -504,8 +560,8 @@ class CarouselComponent {
         const oldOffset = this.offset;
         /** @type {?} */
         const newOffset = (this.offset = offset);
-        this.render.setStyle(el, 'transition', immediate ? 'none' : `transform ${this.speed}ms`);
-        this.render.setStyle(el, 'transform', `translate3d(${offset}%, 0, 0)`);
+        this.renderer.setStyle(el, 'transition', immediate ? 'none' : `transform ${this.speed}ms`);
+        this.renderer.setStyle(el, 'transform', `translate3d(${offset}%, 0, 0)`);
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["timer"])(immediate || newOffset === oldOffset ? 0 : this.speed).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(this.destroy$));
     }
     /**
@@ -524,7 +580,7 @@ class CarouselComponent {
          */
         () => {
             /** @type {?} */
-            const oldActive = this.active$.value;
+            const oldActive = this.active;
             /** @type {?} */
             const newActive = this.loop ? oldActive + 1 : this.getRealActive(oldActive + 1);
             this.goTo(newActive);
@@ -541,11 +597,21 @@ class CarouselComponent {
 CarouselComponent.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"], args: [{
                 selector: 'ngx-carousel',
-                template: "<div\n  class=\"ngx-carousel__track\"\n  #track\n  (dragstart)=\"$event.preventDefault()\"\n  (panstart)=\"onPanStart($event)\"\n  (panmove)=\"onPanMove($event)\"\n  (panend)=\"onPanEnd($event)\"\n  (pancancel)=\"onPanEnd($event)\"\n>\n  <ng-content></ng-content>\n</div>\n\n<div class=\"ngx-carousel__indicator\" *ngIf=\"!indicator\">\n  <div\n    *ngFor=\"let item of items; let i = index\"\n    [class.active]=\"i === (active$ | async)\"\n  ></div>\n</div>\n\n<ng-container *ngTemplateOutlet=\"indicator; context: { $implicit: data }\"></ng-container>\n",
+                template: "<div\n  class=\"ngx-carousel__track\"\n  #track\n  (dragstart)=\"$event.preventDefault()\"\n  (panstart)=\"onPanStart($event)\"\n  (panmove)=\"onPanMove($event)\"\n  (panend)=\"onPanEnd($event)\"\n  (pancancel)=\"onPanEnd($event)\"\n>\n  <ng-content></ng-content>\n</div>\n\n<div class=\"ngx-carousel__indicator\" *ngIf=\"!indicator\">\n  <div\n    *ngFor=\"let item of items; let i = index\"\n    [class.active]=\"i === active\"\n  ></div>\n</div>\n\n<ng-container *ngTemplateOutlet=\"indicator; context: { $implicit: data }\"></ng-container>\n",
                 encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
+                changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
                 host: {
                     '[class.ngx-carousel]': `true`
                 },
+                providers: [
+                    {
+                        provide: CAROUSEL,
+                        useExisting: Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["forwardRef"])((/**
+                         * @return {?}
+                         */
+                        () => CarouselComponent))
+                    }
+                ],
                 styles: [".ngx-carousel{position:relative;display:block;overflow:hidden}.ngx-carousel__track{position:relative;display:inline-block;white-space:nowrap}.ngx-carousel__indicator{position:absolute;bottom:10px;width:100%;text-align:center;white-space:nowrap;font-size:0;pointer-events:none}.ngx-carousel__indicator div{display:inline-block;width:6px;height:6px;margin:0 3px;border-radius:50%;background:rgba(0,0,0,.25);pointer-events:auto}.ngx-carousel__indicator div.active{background:rgba(0,0,0,.75)}"]
             }] }
 ];
@@ -563,7 +629,9 @@ CarouselComponent.propDecorators = {
     allowTouchMove: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
     indicator: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
     initialIndex: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    change: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] }],
+    lazyRenderOffset: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    cache: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    indexChange: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] }],
     track: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"], args: ['track', { static: false },] }],
     items: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ContentChildren"], args: [CarouselItemComponent,] }]
 };
@@ -598,7 +666,7 @@ class CarouselModule {
 CarouselModule.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"], args: [{
                 declarations: [CarouselComponent, CarouselItemComponent, LazyRenderDirective],
-                imports: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"]],
+                imports: [_angular_common__WEBPACK_IMPORTED_MODULE_6__["CommonModule"]],
                 exports: [CarouselComponent, CarouselItemComponent, LazyRenderDirective],
                 providers: [{ provide: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["HAMMER_GESTURE_CONFIG"], useClass: HammerConfig }]
             },] }
@@ -631,7 +699,7 @@ CarouselModule.decorators = [
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<h3>Basic Usage</h3>\n<ngx-carousel [loop]=\"true\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">1</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #F4B9C1\">2</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #96CDF6\">3</div>\n  </ngx-carousel-item>\n</ngx-carousel>\n\n<h3>Custom Indicator</h3>\n<ngx-carousel #carousel [indicator]=\"indicator\" [loop]=\"true\" [autoplay]=\"3000\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">1</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #F4B9C1\">2</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #96CDF6\">3</div>\n  </ngx-carousel-item>\n\n  <ng-template #indicator let-data>\n    <div style=\"position: absolute; bottom: 0; right: 0; padding: 0 10px; background: rgba(0, 0, 0, 0.3); color: #fff;\">\n      {{ data.active + 1 }} / {{ data.count }}\n    </div>\n  </ng-template>\n</ngx-carousel>\n{{ carousel.data | json }}\n\n<h3>Lazy Render</h3>\n<ngx-carousel [loop]=\"true\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">I'm not lazy</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <ng-template lazyRender>\n      <div class=\"demo-content\" style=\"background: #F4B9C1\">I'm lazy</div>\n    </ng-template>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <ng-template lazyRender>\n      <div class=\"demo-content\" style=\"background: #96CDF6\">I'm lazy</div>\n    </ng-template>\n  </ngx-carousel-item>\n</ngx-carousel>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<h3>Basic Usage</h3>\n<ngx-carousel [loop]=\"true\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">1</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #F4B9C1\">2</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #96CDF6\">3</div>\n  </ngx-carousel-item>\n</ngx-carousel>\n\n<h3>Custom Indicator</h3>\n<ngx-carousel #carousel [indicator]=\"indicator\" [loop]=\"true\" [autoplay]=\"3000\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">1</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #F4B9C1\">2</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #96CDF6\">3</div>\n  </ngx-carousel-item>\n\n  <ng-template #indicator let-data>\n    <div style=\"position: absolute; bottom: 0; right: 0; padding: 0 10px; background: rgba(0, 0, 0, 0.3); color: #fff;\">\n      {{ data.active + 1 }} / {{ data.count }}\n    </div>\n  </ng-template>\n</ngx-carousel>\n{{ carousel.data | json }}\n\n<h3>Lazy Render</h3>\n<ngx-carousel [loop]=\"true\" [cache]=\"true\">\n  <ngx-carousel-item>\n    <div class=\"demo-content\" style=\"background: #FAF9D6\">I'm not lazy</div>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <ng-template lazyRender>\n      <div class=\"demo-content\" style=\"background: #F4B9C1\">I'm lazy</div>\n    </ng-template>\n  </ngx-carousel-item>\n\n  <ngx-carousel-item>\n    <ng-template lazyRender>\n      <div class=\"demo-content\" style=\"background: #96CDF6\">I'm lazy</div>\n    </ng-template>\n  </ngx-carousel-item>\n</ngx-carousel>\n");
 
 /***/ }),
 
@@ -898,7 +966,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (".demo-content {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 50vw;\n  font-size: 26px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3RyYXZpcy9idWlsZC94aWFvanVuMTk5NC9uZ3gtY2Fyb3VzZWwvc3JjL2FwcC9hcHAuY29tcG9uZW50Lmxlc3MiLCJzcmMvYXBwL2FwcC5jb21wb25lbnQubGVzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGFBQUE7RUFDQSxtQkFBQTtFQUNBLHVCQUFBO0VBQ0EsWUFBQTtFQUNBLGVBQUE7QUNDRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQubGVzcyIsInNvdXJjZXNDb250ZW50IjpbIi5kZW1vLWNvbnRlbnQge1xuICBkaXNwbGF5OiBmbGV4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgaGVpZ2h0OiA1MHZ3O1xuICBmb250LXNpemU6IDI2cHg7XG59XG4iLCIuZGVtby1jb250ZW50IHtcbiAgZGlzcGxheTogZmxleDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGhlaWdodDogNTB2dztcbiAgZm9udC1zaXplOiAyNnB4O1xufVxuIl19 */");
+/* harmony default export */ __webpack_exports__["default"] = (".demo-content {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 50vw;\n  font-size: 26px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3J1bm5lci93b3JrL25neC1jYXJvdXNlbC9uZ3gtY2Fyb3VzZWwvc3JjL2FwcC9hcHAuY29tcG9uZW50Lmxlc3MiLCJzcmMvYXBwL2FwcC5jb21wb25lbnQubGVzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGFBQUE7RUFDQSxtQkFBQTtFQUNBLHVCQUFBO0VBQ0EsWUFBQTtFQUNBLGVBQUE7QUNDRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQubGVzcyIsInNvdXJjZXNDb250ZW50IjpbIi5kZW1vLWNvbnRlbnQge1xuICBkaXNwbGF5OiBmbGV4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgaGVpZ2h0OiA1MHZ3O1xuICBmb250LXNpemU6IDI2cHg7XG59XG4iLCIuZGVtby1jb250ZW50IHtcbiAgZGlzcGxheTogZmxleDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGhlaWdodDogNTB2dztcbiAgZm9udC1zaXplOiAyNnB4O1xufVxuIl19 */");
 
 /***/ }),
 
@@ -1033,7 +1101,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/travis/build/xiaojun1994/ngx-carousel/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/runner/work/ngx-carousel/ngx-carousel/src/main.ts */"./src/main.ts");
 
 
 /***/ })

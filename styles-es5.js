@@ -9,7 +9,7 @@
 
   /***/
   function node_modulesAngularDevkitBuildAngularSrcAngularCliFilesPluginsRawCssLoaderJsNode_modulesPostcssLoaderSrcIndexJsNode_modulesLessLoaderDistCjsJsSrcStylesLess(module, exports) {
-    module.exports = [[module.i, "/* You can add global styles to this file, and also import other style files */\nbody {\n  font-family: 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9zdHlsZXMubGVzcyIsIi9ob21lL3RyYXZpcy9idWlsZC94aWFvanVuMTk5NC9uZ3gtY2Fyb3VzZWwvc3JjL3N0eWxlcy5sZXNzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDhFQUE4RTtBQ0M5RTtFQUNFLG9KQUFBO0FEQ0YiLCJmaWxlIjoic3JjL3N0eWxlcy5sZXNzIiwic291cmNlc0NvbnRlbnQiOlsiLyogWW91IGNhbiBhZGQgZ2xvYmFsIHN0eWxlcyB0byB0aGlzIGZpbGUsIGFuZCBhbHNvIGltcG9ydCBvdGhlciBzdHlsZSBmaWxlcyAqL1xuYm9keSB7XG4gIGZvbnQtZmFtaWx5OiAnSGVsdmV0aWNhIE5ldWUnLCBIZWx2ZXRpY2EsIEFyaWFsLCAnUGluZ0ZhbmcgU0MnLCAnSGlyYWdpbm8gU2FucyBHQicsICdIZWl0aSBTQycsICdNaWNyb3NvZnQgWWFIZWknLCAnV2VuUXVhbllpIE1pY3JvIEhlaScsIHNhbnMtc2VyaWY7XG59XG4iLCIvKiBZb3UgY2FuIGFkZCBnbG9iYWwgc3R5bGVzIHRvIHRoaXMgZmlsZSwgYW5kIGFsc28gaW1wb3J0IG90aGVyIHN0eWxlIGZpbGVzICovXG5ib2R5IHtcbiAgZm9udC1mYW1pbHk6ICdIZWx2ZXRpY2EgTmV1ZScsIEhlbHZldGljYSwgQXJpYWwsICdQaW5nRmFuZyBTQycsICdIaXJhZ2lubyBTYW5zIEdCJywgJ0hlaXRpIFNDJyxcbiAgICAnTWljcm9zb2Z0IFlhSGVpJywgJ1dlblF1YW5ZaSBNaWNybyBIZWknLCBzYW5zLXNlcmlmO1xufVxuIl19 */", '', '']];
+    module.exports = [[module.i, "/* You can add global styles to this file, and also import other style files */\nbody {\n  font-family: 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9zdHlsZXMubGVzcyIsIi9ob21lL3J1bm5lci93b3JrL25neC1jYXJvdXNlbC9uZ3gtY2Fyb3VzZWwvc3JjL3N0eWxlcy5sZXNzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDhFQUE4RTtBQ0M5RTtFQUNFLG9KQUFBO0FEQ0YiLCJmaWxlIjoic3JjL3N0eWxlcy5sZXNzIiwic291cmNlc0NvbnRlbnQiOlsiLyogWW91IGNhbiBhZGQgZ2xvYmFsIHN0eWxlcyB0byB0aGlzIGZpbGUsIGFuZCBhbHNvIGltcG9ydCBvdGhlciBzdHlsZSBmaWxlcyAqL1xuYm9keSB7XG4gIGZvbnQtZmFtaWx5OiAnSGVsdmV0aWNhIE5ldWUnLCBIZWx2ZXRpY2EsIEFyaWFsLCAnUGluZ0ZhbmcgU0MnLCAnSGlyYWdpbm8gU2FucyBHQicsICdIZWl0aSBTQycsICdNaWNyb3NvZnQgWWFIZWknLCAnV2VuUXVhbllpIE1pY3JvIEhlaScsIHNhbnMtc2VyaWY7XG59XG4iLCIvKiBZb3UgY2FuIGFkZCBnbG9iYWwgc3R5bGVzIHRvIHRoaXMgZmlsZSwgYW5kIGFsc28gaW1wb3J0IG90aGVyIHN0eWxlIGZpbGVzICovXG5ib2R5IHtcbiAgZm9udC1mYW1pbHk6ICdIZWx2ZXRpY2EgTmV1ZScsIEhlbHZldGljYSwgQXJpYWwsICdQaW5nRmFuZyBTQycsICdIaXJhZ2lubyBTYW5zIEdCJywgJ0hlaXRpIFNDJyxcbiAgICAnTWljcm9zb2Z0IFlhSGVpJywgJ1dlblF1YW5ZaSBNaWNybyBIZWknLCBzYW5zLXNlcmlmO1xufVxuIl19 */", '', '']];
     /***/
   },
 
@@ -353,7 +353,7 @@
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /home/travis/build/xiaojun1994/ngx-carousel/src/styles.less */
+    /*! /home/runner/work/ngx-carousel/ngx-carousel/src/styles.less */
     "./src/styles.less");
     /***/
   }
