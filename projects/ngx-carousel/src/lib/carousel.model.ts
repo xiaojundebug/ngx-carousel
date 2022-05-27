@@ -3,4 +3,6 @@ export interface CarouselData {
   count: number
   offset: number
   animating: boolean
+  atFirst: boolean
+  atLast: boolean
 }

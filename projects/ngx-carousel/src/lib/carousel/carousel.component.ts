@@ -1,12 +1,13 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChildren,
   ElementRef,
   EventEmitter,
+  forwardRef,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
@@ -17,7 +18,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core'
-import { BehaviorSubject, fromEvent, interval, Subject, Subscription, timer } from 'rxjs'
+import { BehaviorSubject, interval, Subject, Subscription, timer } from 'rxjs'
 import {
   debounceTime,
   distinctUntilChanged,
@@ -27,27 +28,34 @@ import {
   takeUntil
 } from 'rxjs/operators'
 import { animationFrame } from 'rxjs/internal/scheduler/animationFrame'
+import { CarouselData } from '../carousel.model'
 import { CarouselItemComponent } from '../carousel-item/carousel-item.component'
-import { CarouselData } from '../carousesl.model'
-import { clamp } from '../../utils'
+import { CAROUSEL, clamp, inRange, resize } from '../../utils'
 
 @Component({
   selector: 'ngx-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.less'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.ngx-carousel]': `true`
-  }
+  },
+  providers: [
+    {
+      provide: CAROUSEL,
+      useExisting: forwardRef(() => CarouselComponent)
+    }
+  ]
 })
-export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 是否开启无缝模式 */
   @Input() loop: boolean = false
   /** 切换速度（ms） */
   @Input() speed: number = 300
   /** 自动轮播时间间隔，0 代表关闭自动轮播 */
   @Input() autoplay: number = 0
-  /** 是否跟随手指滑动 */
+  /** 是否跟随手指滑动，设为 false 代表只在松手后进行移动判断 */
   @Input() followFinger: boolean = true
   /** 是否允许手动滑动，设为 false 代表只能通过 api 翻页 */
   @Input() allowTouchMove: boolean = true
@@ -55,19 +63,31 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   @Input() indicator: TemplateRef<{ $implicit: CarouselData }>
   /** 默认激活项 */
   @Input() initialIndex: number = 0
+  /** lazyRender 模式下预渲染个数，1 代表左右多渲染一个，2 代表左右多渲染两个，... */
+  @Input() lazyRenderOffset: number = 0
+  /** 是否缓存 lazyRender 模式下渲染过的 item，不从 dom 树中删除 */
+  @Input() cache: boolean = false
 
   /** 索引变动时触发 */
-  @Output() change = new EventEmitter<number>()
+  @Output() indexChange = new EventEmitter<number>()
 
   @ViewChild('track', { static: false }) track: ElementRef
   @ContentChildren(CarouselItemComponent) items: QueryList<CarouselItemComponent>
 
+  get active() {
+    return this.active$.value
+  }
+
   get count() {
-    return this.items.length
+    return (this.items || []).length
+  }
+
+  get viewport() {
+    return this.hostElRef.nativeElement
   }
 
   get width() {
-    return this.hostElRef.nativeElement.offsetWidth
+    return this.viewport.offsetWidth
   }
 
   get canMove() {
@@ -76,15 +96,15 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
 
   get data(): CarouselData {
     return {
-      active: this.active$.value,
+      active: this.active,
       count: this.count,
       offset: this.offset,
-      animating: this.animating
+      animating: this.animating,
+      atFirst: this.active === 0,
+      atLast: this.active === this.count - 1
     }
   }
-
   active$ = new BehaviorSubject<number>(null)
-
   private destroy$ = new Subject()
   private intervalSub: Subscription
   private percent = 0 // 手指滑动距离所占宽度总和百分比
@@ -94,7 +114,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   private postMirrorNode: Node // 后镜像节点
 
   constructor(
-    private render: Renderer2,
+    private renderer: Renderer2,
     private hostElRef: ElementRef,
     private cdr: ChangeDetectorRef
   ) {}
@@ -102,31 +122,32 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.active$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter(v => v !== null && v >= 0 && v <= this.count - 1),
-        distinctUntilChanged(),
-        skip(1)
-      )
-      .subscribe(res => {
-        this.change.emit(res)
-      })
-
-    fromEvent(window, 'resize')
-      .pipe(takeUntil(this.destroy$), debounceTime(60, animationFrame))
-      .subscribe(() => {
-        this.resize()
-      })
-
     this.items.changes
-      .pipe(takeUntil(this.destroy$), startWith(null), debounceTime(60, animationFrame))
+      .pipe(takeUntil(this.destroy$), startWith(null), debounceTime(0, animationFrame))
       .subscribe(() => {
         this.init()
       })
-  }
 
-  ngOnChanges(changes: SimpleChanges) {}
+    this.active$
+      .pipe(
+        takeUntil(this.destroy$),
+        skip(1),
+        filter(v => v !== null && inRange(v, 0, this.count - 1)),
+        distinctUntilChanged()
+      )
+      .subscribe(res => {
+        this.indexChange.emit(res)
+        this.cdr.markForCheck()
+      })
+
+    // resize 功能待开发
+    // resize(this.viewport)
+    //   .pipe(takeUntil(this.destroy$), debounceTime(0, animationFrame))
+    //   .subscribe(() => {
+    //     // this.updateWidth()
+    //     // this.goTo(this.active, true)
+    //   })
+  }
 
   ngOnDestroy() {
     this.destroy$.next()
@@ -145,7 +166,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     this.percent = ((100 / this.count) * deltaX) / this.width
 
     if (this.followFinger) {
-      const offset = this.percent - (100 / this.count) * this.active$.value
+      const offset = this.percent - (100 / this.count) * this.active
       this.move(offset, true)
     }
   }
@@ -155,7 +176,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
       return
     }
     // 轻拂或者滑动距离大于等于一个节点宽度的 50% 才进行跳转
-    let newActive = this.active$.value
+    let newActive = this.active
     const isSwipeLeft = e.direction === Hammer.DIRECTION_LEFT && e.velocityX < -0.3
     const isSwipeRight = e.direction === Hammer.DIRECTION_RIGHT && e.velocityX > 0.3
     if (isSwipeLeft || this.percent <= -50 / this.count) {
@@ -167,11 +188,6 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     this.startAutoplay()
   }
 
-  /**
-   * 跳转到某一项
-   * @param target 目标索引
-   * @param immediate 跳转时是否不显示动画
-   */
   goTo(target = 0, immediate = false) {
     if (this.animating) {
       return
@@ -195,45 +211,29 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     })
   }
 
-  /**
-   * 切换到上一个
-   */
   prev() {
-    this.goTo(this.active$.value - 1)
+    this.goTo(this.active - 1)
   }
 
-  /**
-   * 切换到下一个
-   */
   next() {
-    this.goTo(this.active$.value + 1)
-  }
-
-  /**
-   * 重新计算更新组件
-   */
-  resize() {
-    this.cdr.detectChanges()
+    this.goTo(this.active + 1)
   }
 
   private init() {
     if (this.items.length === 0) {
       return
     }
-    this.items.forEach((el, index) => (el.index = index))
-
-    if (this.loop) {
-      this.handleMirrorNodes()
-    }
-
-    setTimeout(() => {
-      this.goTo(this.getSafeActive(this.initialIndex, true), true)
-    }, 0)
+    this.items.forEach((el, index) => {
+      el.index = index
+      this.renderer.setStyle(el.elRef.nativeElement, 'width', `${this.width}px`)
+    })
+    this.goTo(this.getSafeActive(this.initialIndex, true), true)
     this.startAutoplay()
   }
 
   private getSafeDeltaX(deltaX) {
-    return clamp(deltaX, -this.width, this.width)
+    const w = this.width
+    return clamp(deltaX, -w, w)
   }
 
   private getSafeActive(active, strict = false) {
@@ -256,18 +256,18 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     const trackEl = this.track.nativeElement
     // 清理镜像节点
     try {
-      this.render.removeChild(trackEl, this.preMirrorNode)
-      this.render.removeChild(trackEl, this.postMirrorNode)
+      this.renderer.removeChild(trackEl, this.preMirrorNode)
+      this.renderer.removeChild(trackEl, this.postMirrorNode)
     } catch (e) {}
 
     const { first, last } = this.items
     this.preMirrorNode = last.elRef.nativeElement.cloneNode(true)
     this.postMirrorNode = first.elRef.nativeElement.cloneNode(true)
 
-    this.render.addClass(this.preMirrorNode, 'pre-mirror-node')
-    this.render.addClass(this.postMirrorNode, 'post-mirror-node')
-    this.render.insertBefore(trackEl, this.preMirrorNode, first.elRef.nativeElement)
-    this.render.appendChild(trackEl, this.postMirrorNode)
+    this.renderer.addClass(this.preMirrorNode, 'pre-mirror-node')
+    this.renderer.addClass(this.postMirrorNode, 'post-mirror-node')
+    this.renderer.insertBefore(trackEl, this.preMirrorNode, first.elRef.nativeElement)
+    this.renderer.appendChild(trackEl, this.postMirrorNode)
   }
 
   private move(offset, immediate = false) {
@@ -275,8 +275,8 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     const oldOffset = this.offset
     const newOffset = (this.offset = offset)
 
-    this.render.setStyle(el, 'transition', immediate ? 'none' : `transform ${this.speed}ms`)
-    this.render.setStyle(el, 'transform', `translate3d(${offset}%, 0, 0)`)
+    this.renderer.setStyle(el, 'transition', immediate ? 'none' : `transform ${this.speed}ms`)
+    this.renderer.setStyle(el, 'transform', `translate3d(${offset}%, 0, 0)`)
 
     return timer(immediate || newOffset === oldOffset ? 0 : this.speed).pipe(
       takeUntil(this.destroy$)
@@ -293,7 +293,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     this.intervalSub = interval(this.autoplay + this.speed)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        const oldActive = this.active$.value
+        const oldActive = this.active
         const newActive = this.loop ? oldActive + 1 : this.getRealActive(oldActive + 1)
         this.goTo(newActive)
       })

@@ -1,7 +1,7 @@
 {
   "name": "@ciri/ngx-carousel",
   "description": "A simple angular carousel component.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "author": "xiaojun1994 <362896731@qq.com>",
   "repository": "git@github.com:xiaojun1994/ngx-carousel.git",

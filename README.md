@@ -14,7 +14,7 @@ A simple angular carousel component.
 
 ## 💻 Environment Support
 
-- Only tested angular 8.2.14
+- Only tested angular 8.3.29
 
 ## 📦 Install & Usage
 
@@ -114,15 +114,17 @@ You can use `ng-template` + `lazyRender` to implement lazy loading
 
 ## 🎁 Inputs
 
-| Name           | Type                                                        | Default | Description                                              |
-| -------------- | ----------------------------------------------------------- | ------- | -------------------------------------------------------- |
-| initialIndex   | number                                                      | 0       | Initial index                                            |
-| loop           | boolean                                                     | false   | Whether to enable loop                                   |
-| speed          | number                                                      | 300     | Animation duration (ms)                                  |
-| autoplay       | number                                                      | 0       | Autoplay interval (ms),<br />`0` means turn off autoplay |
-| followFinger   | boolean                                                     | true    | If false, move only when you <br />release your finger   |
-| allowTouchMove | boolean                                                     | true    | If false, you can only use api <br />to slide            |
-| indicator      | TemplateRef<{ \$implicit: [CarouselData](#-carouseldata) }> | -       | Custom indicator                                         |
+| Name             | Type                                                        | Default | Description                                              |
+| ---------------- | ----------------------------------------------------------- | ------- | -------------------------------------------------------- |
+| initialIndex     | number                                                      | 0       | Initial index                                            |
+| loop             | boolean                                                     | false   | Whether to enable loop                                   |
+| speed            | number                                                      | 300     | Animation duration (ms)                                  |
+| autoplay         | number                                                      | 0       | Autoplay interval (ms),<br />`0` means turn off autoplay |
+| followFinger     | boolean                                                     | true    | If false, move only when you <br />release your finger   |
+| allowTouchMove   | boolean                                                     | true    | If false, you can only use api <br />to slide            |
+| indicator        | TemplateRef<{ \$implicit: [CarouselData](#-carouseldata) }> | -       | Custom indicator                                         |
+| lazyRenderOffset | number                                                      | 0       | Number of pre-rendered offsets (left and right)          |
+| cache            | boolean                                                     | true    | Cache rendered items                                     |
 
 ## 🐚 Outputs
 

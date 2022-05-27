@@ -1,4 +1,3 @@
-<ng-container *ngIf="!isLazyRender || rendered">
-  <ng-template [ngTemplateOutlet]="lazyContent && lazyContent.content"></ng-template>
+<ng-container *ngIf="shouldRender" [ngTemplateOutlet]="lazyContent && lazyContent.content">
   <ng-content></ng-content>
 </ng-container>

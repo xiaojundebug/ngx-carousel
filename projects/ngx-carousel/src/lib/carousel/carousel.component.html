@@ -13,7 +13,7 @@
 <div class="ngx-carousel__indicator" *ngIf="!indicator">
   <div
     *ngFor="let item of items; let i = index"
-    [class.active]="i === (active$ | async)"
+    [class.active]="i === active"
   ></div>
 </div>
 

@@ -36,7 +36,7 @@
 {{ carousel.data | json }}
 
 <h3>Lazy Render</h3>
-<ngx-carousel [loop]="true">
+<ngx-carousel [loop]="true" [cache]="true">
   <ngx-carousel-item>
     <div class="demo-content" style="background: #FAF9D6">I'm not lazy</div>
   </ngx-carousel-item>
